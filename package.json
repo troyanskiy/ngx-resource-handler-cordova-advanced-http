@@ -1,0 +1,41 @@
+{
+  "name": "rest-cordova-advanced-http",
+  "version": "0.0.2",
+  "description": "RestHandler based on cordova-advanced-http",
+  "scripts": {
+    "clean": "rimraf dist",
+    "lint": "tslint --config tslint.json --project tsconfig.json --type-check --format stylish",
+    "tsc": "tsc",
+    "webpack": "webpack",
+    "build": "npm run clean && npm run lint && npm run tsc && npm run webpack",
+    "build.full": "npm run build && cp package.json dist/package.json && cp README.md dist/README.md"
+  },
+  "keywords": [
+    "rest",
+    "rest-core",
+    "Resource",
+    "rest-cordova-advanced-http"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/troyanskiy/rest-cordova-advanced-http.git"
+  },
+  "main": "bundles/rest-cordova-advanced-http.umd.js",
+  "module": "index.js",
+  "typings": "index.d.ts",
+  "author": "Roman Rosluk <roma@redbox.by>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/troyanskiy/rest-cordova-advanced-http/issues"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.34",
+    "awesome-typescript-loader": "^3.2.3",
+    "clean-webpack-plugin": "^0.1.17",
+    "rest-core": "^0.1.1",
+    "rimraf": "^2.6.2",
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.3",
+    "webpack": "^3.7.1"
+  }
+}
