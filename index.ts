@@ -1,1 +1,1 @@
-export * from './src/RestHandlerCordovaAdvancedHttp';
+export * from './src/ResourceHandlerCordovaAdvancedHttp';

@@ -20,13 +20,13 @@ module.exports = {
   output: {
     path: helpers.root('dist/bundles'),
     publicPath: '/',
-    filename: 'rest-cordova-advanced-http.umd.js',
-    library: 'rest-cordova-advanced-http',
+    filename: 'handler-cordova-advanced-http.umd.js',
+    library: 'ngx-resource-handler-cordova-advanced-http',
     libraryTarget: 'umd'
   },
 
   // require those dependencies but don't bundle them
-  externals: [/^rest\-core/],
+  externals: [/^\@ngx\-resource/],
 
   module: {
     rules: [{

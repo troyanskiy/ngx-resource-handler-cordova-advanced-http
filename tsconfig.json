@@ -14,8 +14,8 @@
   },
   "files": [
     "index.ts",
-    "rest-cordova-advanced-http.ts",
-    "src/RestHandlerCordovaAdvancedHttp.ts"
+    "cordova-advanced-http.ts",
+    "src/ResourceHandlerCordovaAdvancedHttp.ts"
   ],
   "exclude": [
     "node_modules",

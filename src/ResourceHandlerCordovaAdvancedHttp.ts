@@ -1,16 +1,12 @@
 import {
-  IRestHandlerResponse,
-  IRestRequest,
-  IRestResponse,
-  RestHandler,
-  RestRequestBodyType,
-  RestRequestMethod,
-  RestResponseBodyType
-} from 'rest-core';
+  IResourceHandlerResponse, IResourceRequest, IResourceResponse, ResourceHandler,
+  ResourceRequestBodyType, ResourceRequestMethod, ResourceResponseBodyType
+} from '@ngx-resource/core';
+
 
 declare const cordova: any;
 
-export class RestHandlerCordovaAdvancedHttp extends RestHandler {
+export class ResourceHandlerCordovaAdvancedHttp extends ResourceHandler {
 
   private http: any = null;
 
@@ -33,17 +29,17 @@ export class RestHandlerCordovaAdvancedHttp extends RestHandler {
 
   }
 
-  handle(req: IRestRequest): IRestHandlerResponse {
+  handle(req: IResourceRequest): IResourceHandlerResponse {
 
     if (!this.http) {
       return this.createErrorResponse('Http is not defined');
     }
 
     switch (req.requestBodyType) {
-      case RestRequestBodyType.JSON:
+      case ResourceRequestBodyType.JSON:
         this.http.setDataSerializer('json');
         break;
-      case RestRequestBodyType.FORM_DATA:
+      case ResourceRequestBodyType.FORM_DATA:
         this.http.setDataSerializer('urlencoded');
         break;
 
@@ -54,22 +50,22 @@ export class RestHandlerCordovaAdvancedHttp extends RestHandler {
     let methodName: string = null;
 
     switch (req.method) {
-      case RestRequestMethod.Post:
+      case ResourceRequestMethod.Post:
         methodName = 'post';
         break;
-      case RestRequestMethod.Get:
+      case ResourceRequestMethod.Get:
         methodName = 'get';
         break;
-      case RestRequestMethod.Put:
+      case ResourceRequestMethod.Put:
         methodName = 'put';
         break;
-      case RestRequestMethod.Patch:
+      case ResourceRequestMethod.Patch:
         methodName = 'patch';
         break;
-      case RestRequestMethod.Delete:
+      case ResourceRequestMethod.Delete:
         methodName = 'delete';
         break;
-      case RestRequestMethod.Head:
+      case ResourceRequestMethod.Head:
         methodName = 'head';
         break;
 
@@ -111,11 +107,11 @@ export class RestHandlerCordovaAdvancedHttp extends RestHandler {
   }
 
 
-  private createResponse(resp: any, req: IRestRequest): Promise<IRestResponse> {
+  private createResponse(resp: any, req: IResourceRequest): Promise<IResourceResponse> {
 
     return new Promise((resolve, reject) => {
 
-      const ret: IRestResponse = {
+      const ret: IResourceResponse = {
         status: resp.status,
         body: resp.data,
         headers: resp.headers
@@ -125,19 +121,19 @@ export class RestHandlerCordovaAdvancedHttp extends RestHandler {
 
         switch (req.responseBodyType) {
 
-          case RestResponseBodyType.Json:
+          case ResourceResponseBodyType.Json:
             ret.body = JSON.parse(ret.body);
             resolve(ret);
 
             return;
 
-          case RestResponseBodyType.Blob:
+          case ResourceResponseBodyType.Blob:
             ret.body = new Blob([ret.body], { type: 'text/plain' });
             resolve(ret);
 
             return;
 
-          case RestResponseBodyType.ArrayBuffer:
+          case ResourceResponseBodyType.ArrayBuffer:
             const fileReader = new FileReader();
 
             fileReader.onload = function () {
