@@ -1,6 +1,6 @@
 {
   "name": "@ngx-resource/handler-cordova-advanced-http",
-  "version": "0.9.0",
+  "version": "5.0.0",
   "description": "Resource Handler based on cordova-advanced-http",
   "scripts": {
     "clean": "rimraf dist",
@@ -35,7 +35,7 @@
     "url": "https://github.com/troyanskiy/ngx-resource-handler-cordova-advanced-http/issues"
   },
   "devDependencies": {
-    "@ngx-resource/core": "^0.9.5",
+    "@ngx-resource/core": "^5.0.0",
     "@types/node": "^8.0.34",
     "awesome-typescript-loader": "^3.2.3",
     "clean-webpack-plugin": "^0.1.17",
