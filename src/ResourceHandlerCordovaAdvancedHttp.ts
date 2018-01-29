@@ -12,8 +12,16 @@ export class ResourceHandlerCordovaAdvancedHttp extends ResourceHandler {
 
   private methodWithBody = ['post', 'put', 'patch'];
 
+  private initDeferResolve: any = null;
+  private initDeferPromise: Promise<any> = null;
+
   constructor() {
     super();
+
+    this.initDeferPromise = new Promise<any>((resolve) => {
+      this.initDeferResolve = resolve;
+    });
+
     this.initHttp();
   }
 
@@ -21,15 +29,23 @@ export class ResourceHandlerCordovaAdvancedHttp extends ResourceHandler {
 
     if (http) {
       this.http = http;
+      this.resolveDeferInit();
     } else {
-      if (cordova && cordova.plugin.http) {
-        this.http = cordova.plugin.http;
-      }
+      this.initHttpPlugin();
     }
 
   }
 
   handle(req: IResourceRequest): IResourceHandlerResponse {
+
+    if (this.initDeferPromise) {
+      return {
+        promise: this.initDeferPromise
+          .then(() => this.handle(req))
+          .then((r: IResourceHandlerResponse) => r.promise)
+      };
+    }
+
 
     if (!this.http) {
       return this.createErrorResponse('Http is not defined');
@@ -106,6 +122,33 @@ export class ResourceHandlerCordovaAdvancedHttp extends ResourceHandler {
 
   }
 
+  private initHttpPlugin() {
+    if (this.tryToSetPlugin()) {
+      this.resolveDeferInit();
+    } else {
+      document.addEventListener('deviceready', () => {
+        if (!this.tryToSetPlugin()) {
+          console.warn('Can not set http plugin after device ready');
+        }
+        this.resolveDeferInit();
+      }, false);
+    }
+  }
+
+  private tryToSetPlugin(): boolean {
+
+    if (!this.http && cordova && cordova.plugin && cordova.plugin.http) {
+      this.http = cordova.plugin.http;
+    }
+
+    return !!this.http;
+  }
+
+  private resolveDeferInit() {
+    this.initDeferResolve();
+    this.initDeferResolve = null;
+    this.initDeferPromise = null;
+  }
 
   private createResponse(resp: any, req: IResourceRequest): Promise<IResourceResponse> {
 
