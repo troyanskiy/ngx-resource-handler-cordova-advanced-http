@@ -51,6 +51,10 @@ export class ResourceHandlerCordovaAdvancedHttp extends ResourceHandler {
       return this.createErrorResponse('Http is not defined');
     }
 
+    if (req.requestBodyType === void 0) {
+      req.requestBodyType = ResourceRequestBodyType.FORM_DATA;
+    }
+
     switch (req.requestBodyType) {
       case ResourceRequestBodyType.JSON:
         this.http.setDataSerializer('json');
