@@ -1,6 +1,6 @@
 {
   "name": "@ngx-resource/handler-cordova-advanced-http",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "Resource Handler based on cordova-advanced-http",
   "scripts": {
     "clean": "rimraf dist",

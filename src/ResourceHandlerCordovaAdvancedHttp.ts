@@ -117,9 +117,7 @@ export class ResourceHandlerCordovaAdvancedHttp extends ResourceHandler {
     const promise = new Promise((resolve, reject) => {
       this.http[methodName](url, second, req.headers, resolve, reject);
     })
-      .catch((resp: any) => {
-        throw this.createResponse(resp, req);
-      })
+      .catch((resp: any) => this.createResponse(resp, req, true))
       .then((resp: any) => this.createResponse(resp, req));
 
     return {promise};
@@ -154,7 +152,7 @@ export class ResourceHandlerCordovaAdvancedHttp extends ResourceHandler {
     this.initDeferPromise = null;
   }
 
-  private createResponse(resp: any, req: IResourceRequest): Promise<IResourceResponse> {
+  private createResponse(resp: any, req: IResourceRequest, isError: boolean = false): Promise<IResourceResponse> {
 
     return new Promise((resolve, reject) => {
 
@@ -207,7 +205,11 @@ export class ResourceHandlerCordovaAdvancedHttp extends ResourceHandler {
         }
       }
 
-      resolve(ret);
+      if (isError) {
+        reject(ret);
+      } else {
+        resolve(ret);
+      }
 
     });
 
