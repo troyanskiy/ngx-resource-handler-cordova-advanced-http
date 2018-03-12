@@ -62,9 +62,12 @@ export class ResourceHandlerCordovaAdvancedHttp extends ResourceHandler {
       case ResourceRequestBodyType.FORM_DATA:
         this.http.setDataSerializer('urlencoded');
         break;
+      case ResourceRequestBodyType.TEXT:
+        this.http.setDataSerializer('utf8');
+        break;
 
       default:
-        return this.createErrorResponse('Supported only json or FormData types');
+        return this.createErrorResponse('Supported only json, FormData or text types');
     }
 
     let methodName: string = null;
