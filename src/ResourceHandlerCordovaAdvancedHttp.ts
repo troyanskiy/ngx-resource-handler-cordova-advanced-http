@@ -115,7 +115,12 @@ export class ResourceHandlerCordovaAdvancedHttp extends ResourceHandler {
 
 
     const promise = new Promise((resolve, reject) => {
-      this.http[methodName](url, second, req.headers, resolve, reject);
+      try {
+        this.http[methodName](url, second, req.headers, resolve, reject);
+      } catch (e) {
+        console.error(`Http plugin call failed with: ${e.message}`, e);
+        reject({status: -1, headers: [{ error: e.message }]});
+      }
     })
       .catch((resp: any) => this.createResponse(resp, req, true))
       .then((resp: any) => this.createResponse(resp, req));
