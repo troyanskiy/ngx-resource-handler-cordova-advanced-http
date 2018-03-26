@@ -100,6 +100,14 @@ export class ResourceHandlerCordovaAdvancedHttp extends ResourceHandler {
     let url = req.url;
     let second = req.body;
 
+    if (req.query) {
+      for (const key in req.query) {
+        if (req.query.hasOwnProperty(key)) {
+          req.query[key] = req.query[key].toString();
+        }
+      }
+    }
+
     if (this.methodWithBody.indexOf(methodName) > -1) {
 
       if (req.query) {
