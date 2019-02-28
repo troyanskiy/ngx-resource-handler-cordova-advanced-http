@@ -174,7 +174,7 @@ export class ResourceHandlerCordovaAdvancedHttp extends ResourceHandler {
 
       const ret: IResourceResponse = {
         status: resp.status,
-        body: resp.data,
+        body: resp.data || resp.error,
         headers: resp.headers
       };
 
@@ -183,23 +183,30 @@ export class ResourceHandlerCordovaAdvancedHttp extends ResourceHandler {
         switch (req.responseBodyType) {
 
           case ResourceResponseBodyType.Json:
-            ret.body = JSON.parse(ret.body);
-            resolve(ret);
+            try {
+              ret.body = JSON.parse(ret.body);
+            } catch (e) {
+              // noop
+            }
 
-            return;
+            break;
 
           case ResourceResponseBodyType.Blob:
             ret.body = new Blob([ret.body], { type: 'text/plain' });
-            resolve(ret);
 
-            return;
+            break;
 
           case ResourceResponseBodyType.ArrayBuffer:
             const fileReader = new FileReader();
 
             fileReader.onload = function () {
               ret.body = this.result;
-              resolve(ret);
+
+              if (isError) {
+                reject(ret);
+              } else {
+                resolve(ret);
+              }
             };
 
             fileReader.onerror = function () {
